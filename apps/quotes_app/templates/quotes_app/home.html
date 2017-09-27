@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p><a href="/logout" style="margin-left: 650px;">Logout</a></p>
+    <h1>Welcome, {{request.session.user_name}}!</h1>
+    <div style="display: inline-block; width: 40%; vertical-align: top;">
+        <h2>Quotable Quotes</h2>
+        <div style="outline: 1px solid black; height: 700px; width: 350px; overflow: scroll; margin-top: 20px; vertical-align: top;">
+            {% for x in quotes %}
+            <p>Author: {{x.author}} <br> Quote: {{x.message}}<br>Posted By: <a href="/quote/user/{{x.user.id}}">{{x.user.name}}</a>
+                <form action="/quote/addfav/{{x.id}}" method="post">
+                    {% csrf_token %}<input type="submit" value="Add to My List">
+                </form>
+            </p>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div style="display: inline-block; width: 40%; vertical-align: top;">
+        <h2>Your Favorites</h2>
+        <div style="outline: 1px solid black; height: 300px; width: 350px; overflow: scroll; margin-top: 20px; vertical-align: top;">
+            {% for y in favs %}
+            <p>Author: {{y}} <br> Quote: {{y}}<br>Posted By: <a href="/quote/user/{{y.id}}">{{y.name}}</a>
+                <form action="/quote/remove/{{y.id}}" method="post">
+                    {% csrf_token %}<input type="submit" value="Remove From My List">
+                </form>
+            </p>
+            {% endfor %}
+        </div>
+        <div style="margin-top: 50px;">
+            {% if messages %} {%for message in messages %} {% if message.tags == "error" %}
+            <p style="color: red">{{message}} </p> {% endif %}{% if message.tags == "success" %}
+            <p style="color: green">{{message}} </p> {% endif %} {% endfor %} {% endif %}
+            <h2>Contribute A Quote</h2>
+            <form action="/quote/addquote" method="post">
+                {% csrf_token %}
+
+                <p>Quoted By:</p>
+                <input type="text" name="author" placeholder="quoted by"><br>
+
+                <p>Message:</p>
+                <textarea name="message" placeholder="message" rows="8" cols="40"></textarea><br>
+
+                <button type="submit">Add Quote</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p><a href="/quote" style="margin-left: 650px;">Dashboard</a>&emsp;<a href="/logout">Logout</a></p>
+    {% for x in user%}
+    <h1>Posts By: {{x.name}}</h1>
+    {% endfor %}
+
+    <h2>Count: {{qcount}}</h2>
+    {% for y in quotes %}
+    <p>Author: {{y.author}} <br> Quote: {{y.message}}</p>
+    {% endfor %}
+</body>
+
+</html>
